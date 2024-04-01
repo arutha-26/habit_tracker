@@ -105,5 +105,30 @@ C R U D - O P E R A T I O N S
   }
 
 // UPDATE - EDIT HABIT NAME
+  Future<void> updateHabitName(int id, String newName) async {
+    //   find the specific habit
+    final habit = await isar.habits.get(id);
+
+    //   update habit name
+    if (habit != null) {
+      //   update name
+      await isar.writeTxn(() async {
+        habit.name = newName;
+        //   save updated habit back to the db
+        await isar.habits.put(habit);
+      });
+    }
+    //   re-read from db
+    readHabits();
+  }
+
 // DELETE - DELETE HABIT
+  Future<void> deleteHabit(int id) async {
+//     perform delete
+    await isar.writeTxn(() async {
+      await isar.habits.delete(id);
+    });
+// re-read from db
+    readHabits();
+  }
 }

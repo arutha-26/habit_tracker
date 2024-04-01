@@ -11,8 +11,13 @@ Future<void> main() async {
   await HabitDatabase.initiliaze();
   await HabitDatabase().saveFirstLaunchDate();
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => ThemeProvider(),
+  runApp(MultiProvider(
+    providers: [
+      // habit provider
+      ChangeNotifierProvider(create: (context) => HabitDatabase()),
+      // theme provider
+      ChangeNotifierProvider(create: (context) => ThemeProvider())
+    ],
     child: MyApp(),
   ));
 }
