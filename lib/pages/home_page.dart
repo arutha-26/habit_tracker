@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => AlertDialog(
               content: TextField(
                 controller: textController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Create a new habit",
                 ),
               ),
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                     //   clear controller
                     textController.clear();
                   },
-                  child: Text('Save'),
+                  child: const Text('Save'),
                   color: Colors.greenAccent,
                 ),
 
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                     //   clear controller
                     textController.clear();
                   },
-                  child: Text(
+                  child: const Text(
                     'Cancel',
                     style: TextStyle(color: Colors.white),
                   ),
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                     //   clear controller
                     textController.clear();
                   },
-                  child: Text('Save'),
+                  child: const Text('Save'),
                   color: Colors.greenAccent,
                 ),
 
@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                     //   clear controller
                     textController.clear();
                   },
-                  child: Text(
+                  child: const Text(
                     'Cancel',
                     style: TextStyle(color: Colors.white),
                   ),
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text("Are you sure to delete this habit?"),
+              title: const Text("Are you sure to delete this habit?"),
               actions: [
                 //   delete button
                 MaterialButton(
@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                     //   pop box
                     Navigator.pop(context);
                   },
-                  child: Text(
+                  child: const Text(
                     'Delete',
                     style: TextStyle(color: Colors.white),
                   ),
@@ -165,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                     //   clear controller
                     textController.clear();
                   },
-                  child: Text(
+                  child: const Text(
                     'Cancel',
                     style: TextStyle(color: Colors.black87),
                   ),
@@ -179,12 +179,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      drawer: MyDrawer(),
+      drawer: const MyDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: createNewHabit,
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.tertiary,
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.black,
         ),
