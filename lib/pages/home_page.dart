@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/components/my_drawer.dart';
 import 'package:habit_tracker/components/my_habit_tile.dart';
+import 'package:habit_tracker/components/my_heat_map.dart';
 import 'package:habit_tracker/database/habit_database.dart';
 import 'package:provider/provider.dart';
 
@@ -52,8 +53,8 @@ class _HomePageState extends State<HomePage> {
                     //   clear controller
                     textController.clear();
                   },
+                  color: Colors.green,
                   child: const Text('Save'),
-                  color: Colors.greenAccent,
                 ),
 
                 //   cancel button
@@ -65,11 +66,11 @@ class _HomePageState extends State<HomePage> {
                     //   clear controller
                     textController.clear();
                   },
+                  color: Colors.red,
                   child: const Text(
                     'Cancel',
                     style: TextStyle(color: Colors.white),
                   ),
-                  color: Colors.redAccent,
                 )
               ],
             ));
@@ -110,8 +111,8 @@ class _HomePageState extends State<HomePage> {
                     //   clear controller
                     textController.clear();
                   },
+                  color: Colors.green,
                   child: const Text('Save'),
-                  color: Colors.greenAccent,
                 ),
 
                 //   cancel button
@@ -123,11 +124,11 @@ class _HomePageState extends State<HomePage> {
                     //   clear controller
                     textController.clear();
                   },
+                  color: Colors.red,
                   child: const Text(
                     'Cancel',
                     style: TextStyle(color: Colors.white),
                   ),
-                  color: Colors.redAccent,
                 )
               ],
             ));
@@ -149,11 +150,11 @@ class _HomePageState extends State<HomePage> {
                     //   pop box
                     Navigator.pop(context);
                   },
+                  color: Colors.redAccent,
                   child: const Text(
                     'Delete',
                     style: TextStyle(color: Colors.white),
                   ),
-                  color: Colors.redAccent,
                 ),
 
                 //   cancel button
@@ -165,11 +166,11 @@ class _HomePageState extends State<HomePage> {
                     //   clear controller
                     textController.clear();
                   },
+                  color: Colors.white,
                   child: const Text(
                     'Cancel',
                     style: TextStyle(color: Colors.black87),
                   ),
-                  color: Colors.white,
                 )
               ],
             ));
@@ -189,7 +190,18 @@ class _HomePageState extends State<HomePage> {
           color: Colors.black,
         ),
       ),
-      body: _buildHabitList(),
+      body: ListView(
+        children: [
+          //   HEAT MAP
+          _buildHeatMap(),
+
+          SizedBox(
+            height: 25,
+          ),
+          //   HABIT LIST
+          _buildHabitList(),
+        ],
+      ),
     );
   }
 
@@ -204,6 +216,8 @@ class _HomePageState extends State<HomePage> {
     //   return list of habits UI
     return ListView.builder(
         itemCount: currentHabits.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           //   get each individual habit
           final habit = currentHabits[index];
@@ -219,6 +233,30 @@ class _HomePageState extends State<HomePage> {
             editHabit: (context) => editHabitBox(habit),
             deleteHabit: (context) => deleteHabitBox(habit),
           );
+        });
+  }
+
+//   build heat map
+  Widget _buildHeatMap() {
+    //   habit database
+    final habitDatabase = context.watch<HabitDatabase>();
+
+    //   current habits
+    List<Habit> currentHabits = habitDatabase.currentHabits;
+
+    //   return heat map ui
+    return FutureBuilder<DateTime?>(
+        future: habitDatabase.getFirstLaunchDate(),
+        builder: (context, snapshot) {
+          //   once data is available -> build heat map
+          if (snapshot.hasData) {
+            return MyHeatMap(
+                startDate: snapshot.data!, datasets: prepHeatMapDataset(currentHabits));
+          }
+          // handle case where is no data returned
+          else {
+            return Container();
+          }
         });
   }
 }

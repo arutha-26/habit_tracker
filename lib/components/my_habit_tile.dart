@@ -49,15 +49,14 @@ class MyHabitTile extends StatelessWidget {
             }
           },
           child: Container(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-                color: isCompleted ? Colors.greenAccent : Theme.of(context).colorScheme.secondary,
+                color: isCompleted ? Colors.green : Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(12)),
             child: ListTile(
               title: Text(
                 text,
-                style:
-                    TextStyle(fontSize: 20, color: isCompleted ? Colors.black87 : Colors.black87),
+                style: TextStyle(fontSize: 20, color: isCompleted ? Colors.white : Colors.black87),
               ),
               leading: Checkbox(
                 activeColor: Colors.green,
